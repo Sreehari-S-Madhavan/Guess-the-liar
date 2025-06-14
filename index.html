@@ -1,37 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Guess the Liar</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>Guess the Liar Game</h1>
-
   <div id="setup">
-    <label>Number of players:
-      <input type="number" id="playerCount" min="3" max="10">
-    </label>
+    <h1>Guess the Liar</h1>
+    <p>Enter player names (min 3):</p>
+    <div id="nameInputs"></div>
+    <button onclick="addPlayerInput()">+ Add Player</button>
     <button onclick="startGame()">Start Game</button>
   </div>
 
   <div id="game" class="hidden">
     <h2 id="playerTurn"></h2>
     <button onclick="revealPrompt()">Reveal Prompt</button>
-    <p id="promptDisplay" class="hidden"></p>
-    <button onclick="hidePrompt()" class="hidden" id="hideBtn">Hide Prompt & Pass</button>
+    <div id="promptDisplay" class="prompt hidden"></div>
+    <button id="hideBtn" class="hidden" onclick="hidePrompt()">Hide Prompt</button>
+    <p id="timer" class="hidden"></p>
   </div>
 
   <div id="guessSection" class="hidden">
-    <h2>Who is the liar?</h2>
+    <h2>Who was the liar?</h2>
     <div id="guessButtons"></div>
     <p id="result"></p>
     <button onclick="nextRound()">Next Round</button>
   </div>
 
   <div id="scoreboard" class="hidden">
-    <h2>Scoreboard</h2>
+    <h3>Scoreboard</h3>
     <ul id="scores"></ul>
   </div>
 
