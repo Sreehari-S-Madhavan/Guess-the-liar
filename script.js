@@ -572,7 +572,10 @@ function startGame() {
 }
 
 function showPlayerTurn() {
-  document.getElementById('promptDisplay').className = 'prompt';
+  const display = document.getElementById('promptDisplay');
+  display.classList.remove('show');
+  display.textContent = '';
+
   document.getElementById('timer').classList.add('hidden');
   document.getElementById('hideNowBtn').classList.add('hidden');
   document.getElementById('hideBtn').classList.remove('hidden');
@@ -583,6 +586,7 @@ function revealPrompt() {
   const promptBox = document.getElementById('promptDisplay');
   const { original, imposter } = getRandomPrompt();
   const prompt = currentPlayerIndex === liarIndex ? imposter : original;
+
   promptBox.textContent = prompt;
   promptBox.classList.add('show');
 
@@ -592,7 +596,7 @@ function revealPrompt() {
   document.getElementById('hideBtn').classList.add('hidden');
 
   let seconds = 10;
-  if (countdown) clearInterval(countdown); // clear any existing
+  if (countdown) clearInterval(countdown);
   countdown = setInterval(() => {
     seconds--;
     document.getElementById('timer').textContent = seconds;
@@ -603,6 +607,7 @@ function revealPrompt() {
   }, 1000);
 }
 
+
 function getRandomPrompt() {
   const list = promptData[category];
   return list[Math.floor(Math.random() * list.length)];
@@ -612,6 +617,7 @@ function hidePrompt() {
   document.getElementById('promptDisplay').classList.remove('show');
   document.getElementById('timer').classList.add('hidden');
   document.getElementById('hideNowBtn').classList.add('hidden');
+
   if (countdown) clearInterval(countdown);
 
   currentPlayerIndex++;
@@ -621,6 +627,7 @@ function hidePrompt() {
     showPlayerTurn();
   }
 }
+
 
 function startGuessing() {
   document.getElementById('game').classList.add('hidden');
