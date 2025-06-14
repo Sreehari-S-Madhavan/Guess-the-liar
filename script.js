@@ -1,3 +1,4 @@
+let countdown = null;
 let players = [];
 let liarIndex = -1;
 let currentPlayerIndex = 0;
@@ -544,7 +545,7 @@ superheroes: [
 
 
 function selectCategory(cat) {
-  category = cat;
+  category = cat.trim(); // Ensures no leading/trailing space
   document.getElementById('categorySelection').classList.add('hidden');
   document.getElementById('setup').classList.remove('hidden');
 }
@@ -584,12 +585,15 @@ function revealPrompt() {
   const prompt = currentPlayerIndex === liarIndex ? imposter : original;
   promptBox.textContent = prompt;
   promptBox.classList.add('show');
+
   document.getElementById('timer').textContent = "10";
   document.getElementById('timer').classList.remove('hidden');
   document.getElementById('hideNowBtn').classList.remove('hidden');
   document.getElementById('hideBtn').classList.add('hidden');
+
   let seconds = 10;
-  const countdown = setInterval(() => {
+  if (countdown) clearInterval(countdown); // clear any existing
+  countdown = setInterval(() => {
     seconds--;
     document.getElementById('timer').textContent = seconds;
     if (seconds <= 0) {
@@ -606,6 +610,10 @@ function getRandomPrompt() {
 
 function hidePrompt() {
   document.getElementById('promptDisplay').classList.remove('show');
+  document.getElementById('timer').classList.add('hidden');
+  document.getElementById('hideNowBtn').classList.add('hidden');
+  if (countdown) clearInterval(countdown);
+
   currentPlayerIndex++;
   if (currentPlayerIndex >= players.length) {
     startGuessing();
