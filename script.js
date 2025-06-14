@@ -1,12 +1,3 @@
-let promptPairs = [
-  { normal: "What’s your favorite type of food?", liar: "What’s your favorite fruit?" },
-  { normal: "Name a movie you love.", liar: "Name a cartoon you used to watch." },
-  { normal: "What's your dream vacation spot?", liar: "What's your favorite nearby place?" },
-  { normal: "Which sport do you enjoy watching?", liar: "Which board game do you like?" },
-  { normal: "What’s your favorite subject in school?", liar: "Which subject do you find difficult?" },
-  { normal: "Name an animal you like.", liar: "Name an insect you dislike." }
-];
-
 let players = [];
 let scores = [];
 let currentPlayer = 0;
@@ -14,6 +5,16 @@ let liarIndex;
 let selectedPrompt = {};
 let round = 1;
 let timerInterval;
+
+const promptPairs = [
+  { normal: "What’s your favorite type of food?", liar: "What’s your favorite fruit?" },
+  { normal: "What’s your ideal vacation destination?", liar: "What’s your favorite weekday?" },
+  { normal: "What kind of music do you enjoy?", liar: "What is your favorite TV ad?" },
+  { normal: "What’s your go-to movie genre?", liar: "What’s your favorite toothpaste brand?" },
+  { normal: "Describe your perfect weekend.", liar: "How long can you hold your breath?" },
+  { normal: "What’s your favorite hobby?", liar: "What’s your favorite triangle shape?" },
+  { normal: "What job would you love to try?", liar: "What’s your favorite paper size?" },
+];
 
 function addPlayerInput() {
   const input = document.createElement('input');
@@ -43,24 +44,33 @@ function startRound() {
   document.getElementById('guessSection').classList.add('hidden');
   document.getElementById('scoreboard').classList.add('hidden');
   document.getElementById('promptDisplay').classList.remove('show');
+  document.getElementById('promptDisplay').classList.add('hidden');
+
   showTurn();
 }
 
 function showTurn() {
-  document.getElementById('playerTurn').textContent = `${players[currentPlayer]}'s Turn - Don't Let Others See!`;
+  document.getElementById('playerTurn').textContent = `${players[currentPlayer]}'s Turn - Keep it secret!`;
   document.getElementById('promptDisplay').classList.add('hidden');
-  document.getElementById('hideBtn').classList.add('hidden');
+  document.getElementById('promptDisplay').classList.remove('show');
+  document.getElementById('hideBtn').classList.remove('hidden');
+  document.getElementById('hideNowBtn').classList.add('hidden');
   document.getElementById('timer').classList.add('hidden');
 }
 
 function revealPrompt() {
+  clearInterval(timerInterval);
   const promptText = currentPlayer === liarIndex ? selectedPrompt.liar : selectedPrompt.normal;
   const promptDiv = document.getElementById('promptDisplay');
   promptDiv.textContent = promptText;
   promptDiv.classList.remove('hidden');
-  setTimeout(() => promptDiv.classList.add('show'), 10);
-  
+  void promptDiv.offsetWidth;
+  promptDiv.classList.add('show');
+
   document.getElementById('timer').classList.remove('hidden');
+  document.getElementById('hideNowBtn').classList.remove('hidden');
+  document.getElementById('hideBtn').classList.remove('hidden');
+
   let timeLeft = 10;
   document.getElementById('timer').textContent = `Hide in: ${timeLeft}s`;
   timerInterval = setInterval(() => {
@@ -75,11 +85,14 @@ function revealPrompt() {
 
 function hidePrompt() {
   clearInterval(timerInterval);
-  document.getElementById('promptDisplay').classList.remove('show');
+  const promptDiv = document.getElementById('promptDisplay');
+  promptDiv.classList.remove('show');
   setTimeout(() => {
-    document.getElementById('promptDisplay').classList.add('hidden');
+    promptDiv.classList.add('hidden');
     document.getElementById('hideBtn').classList.add('hidden');
+    document.getElementById('hideNowBtn').classList.add('hidden');
     document.getElementById('timer').classList.add('hidden');
+
     currentPlayer++;
     if (currentPlayer >= players.length) {
       showGuessSection();
@@ -92,9 +105,8 @@ function hidePrompt() {
 function showGuessSection() {
   document.getElementById('game').classList.add('hidden');
   document.getElementById('guessSection').classList.remove('hidden');
-
   const guessButtons = document.getElementById('guessButtons');
-  guessButtons.innerHTML = "";
+  guessButtons.innerHTML = '';
   players.forEach((player, index) => {
     const btn = document.createElement("button");
     btn.textContent = player;
@@ -130,4 +142,27 @@ function updateScoreboard() {
 function nextRound() {
   round++;
   startRound();
+}
+
+function resetGame() {
+  players = [];
+  scores = [];
+  round = 1;
+  currentPlayer = 0;
+  liarIndex = null;
+
+  document.getElementById('setup').classList.remove('hidden');
+  document.getElementById('game').classList.add('hidden');
+  document.getElementById('guessSection').classList.add('hidden');
+  document.getElementById('scoreboard').classList.add('hidden');
+  document.getElementById('nameInputs').innerHTML = '<input type="text" placeholder="Player 1" />';
+  alert("Game has been reset.");
+}
+
+function quitRound() {
+  document.getElementById('game').classList.add('hidden');
+  document.getElementById('guessSection').classList.add('hidden');
+  document.getElementById('scoreboard').classList.remove('hidden');
+  updateScoreboard();
+  alert("Round has been quit.");
 }
