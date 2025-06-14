@@ -59,7 +59,7 @@ function revealPrompt() {
   promptDiv.textContent = promptText;
   promptDiv.classList.remove('hidden');
   setTimeout(() => promptDiv.classList.add('show'), 10);
-
+  
   document.getElementById('timer').classList.remove('hidden');
   let timeLeft = 10;
   document.getElementById('timer').textContent = `Hide in: ${timeLeft}s`;
