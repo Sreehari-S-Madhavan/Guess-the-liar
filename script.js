@@ -43,8 +43,8 @@ function startRound() {
   document.getElementById('game').classList.remove('hidden');
   document.getElementById('guessSection').classList.add('hidden');
   document.getElementById('scoreboard').classList.add('hidden');
-  document.getElementById('promptDisplay').classList.remove('show');
   document.getElementById('promptDisplay').classList.add('hidden');
+  document.getElementById('promptDisplay').classList.remove('show');
 
   showTurn();
 }
@@ -64,6 +64,8 @@ function revealPrompt() {
   const promptDiv = document.getElementById('promptDisplay');
   promptDiv.textContent = promptText;
   promptDiv.classList.remove('hidden');
+
+  // Trigger animation
   void promptDiv.offsetWidth;
   promptDiv.classList.add('show');
 
@@ -72,21 +74,25 @@ function revealPrompt() {
   document.getElementById('hideBtn').classList.remove('hidden');
 
   let timeLeft = 10;
-  document.getElementById('timer').textContent = `Hide in: ${timeLeft}s`;
+  document.getElementById('timer').textContent = `Auto-hide in: ${timeLeft}s`;
+
   timerInterval = setInterval(() => {
     timeLeft--;
-    document.getElementById('timer').textContent = `Hide in: ${timeLeft}s`;
+    document.getElementById('timer').textContent = `Auto-hide in: ${timeLeft}s`;
     if (timeLeft <= 0) {
       clearInterval(timerInterval);
-      hidePrompt();
+      hidePrompt(); // auto-hide
     }
   }, 1000);
 }
 
 function hidePrompt() {
   clearInterval(timerInterval);
+
   const promptDiv = document.getElementById('promptDisplay');
   promptDiv.classList.remove('show');
+
+  // Wait for fade-out animation
   setTimeout(() => {
     promptDiv.classList.add('hidden');
     document.getElementById('hideBtn').classList.add('hidden');
@@ -99,12 +105,13 @@ function hidePrompt() {
     } else {
       showTurn();
     }
-  }, 500);
+  }, 500); // wait for CSS transition
 }
 
 function showGuessSection() {
   document.getElementById('game').classList.add('hidden');
   document.getElementById('guessSection').classList.remove('hidden');
+
   const guessButtons = document.getElementById('guessButtons');
   guessButtons.innerHTML = '';
   players.forEach((player, index) => {
@@ -122,7 +129,7 @@ function guessLiar(index) {
     result.style.color = 'green';
     scores[index]++;
   } else {
-    result.textContent = `Wrong! ${players[liarIndex]} was actually the liar.`;
+    result.textContent = `Wrong! ${players[liarIndex]} was the liar.`;
     result.style.color = 'red';
   }
   updateScoreboard();
