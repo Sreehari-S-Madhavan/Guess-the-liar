@@ -5,6 +5,8 @@ let currentPlayerIndex = 0;
 let category = 'general';
 let scores = {};
 let leaderboard = JSON.parse(localStorage.getItem('leaderboard')) || {};
+let selectedPrompt = null;
+
 
 const promptData = {
   anime: [
@@ -216,7 +218,7 @@ const promptData = {
     { original: "What’s your favorite book genre?", imposter: "What’s your favorite fictional character from a book?" },
     { original: "What’s your favorite musical artist?", imposter: "What’s your favorite song by that artist?" },
     { original: "What’s your favorite holiday?", imposter: "What’s your favorite holiday tradition?" },
-    { original: "What’s your favorite animal?", imposter: "What’s your favorite sound that animal makes?" },
+    { original: "What’s your favorite animal?", imposter: "What’s your favorite sound that animal makes?" }
   ],
 superheroes: [
     { original: "Who is your favorite superhero?", imposter: "What’s your favorite superpower?" },
@@ -433,7 +435,7 @@ superheroes: [
     { original: "What's your favorite type of small talk?", imposter: "What's your favorite specific topic for weather-related small talk?" },
     { original: "What's your favorite feeling of comfort?", imposter: "What's your favorite specific warmth level of a hot beverage?" },
     { original: "What's your favorite type of mundane observation?", imposter: "What's your favorite specific shape of a cloud passing by?" },
-    { original: "What's your favorite way to remember things?", imposter: "What's your favorite specific color of ink for memory notes?" },
+    { original: "What's your favorite way to remember things?", imposter: "What's your favorite specific color of ink for memory notes?" }
   ],
 
   dream_scenarios: [
@@ -556,20 +558,24 @@ function addPlayerInput() {
   input.placeholder = `Player ${document.querySelectorAll('#nameInputs input').length + 1}`;
   document.getElementById('nameInputs').appendChild(input);
 }
-
 function startGame() {
   const inputs = document.querySelectorAll('#nameInputs input');
   players = Array.from(inputs).map(input => input.value.trim()).filter(name => name);
   if (players.length < 3) return alert("Minimum 3 players required.");
+
   liarIndex = Math.floor(Math.random() * players.length);
   currentPlayerIndex = 0;
-  scores = players.reduce((acc, name) => ({ ...acc, [name]: 0 }), scores);
+  scores = players.reduce((acc, name) => ({ ...acc, [name]: 0 }), {});
+  selectedPrompt = getRandomPrompt(); // 🔥 choose once per round
+
   document.getElementById('setup').classList.add('hidden');
   document.getElementById('game').classList.remove('hidden');
   document.getElementById('scoreboard').classList.remove('hidden');
+
   showPlayerTurn();
   updateScores();
 }
+
 
 function showPlayerTurn() {
   const display = document.getElementById('promptDisplay');
@@ -584,8 +590,7 @@ function showPlayerTurn() {
 
 function revealPrompt() {
   const promptBox = document.getElementById('promptDisplay');
-  const { original, imposter } = getRandomPrompt();
-  const prompt = currentPlayerIndex === liarIndex ? imposter : original;
+  const prompt = currentPlayerIndex === liarIndex ? selectedPrompt.imposter : selectedPrompt.original;
 
   promptBox.textContent = prompt;
   promptBox.classList.add('show');
@@ -606,6 +611,7 @@ function revealPrompt() {
     }
   }, 1000);
 }
+
 
 
 function getRandomPrompt() {
