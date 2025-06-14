@@ -3,26 +3,35 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Guess the Liar</title>
+  <title>Guess the Liar - Categories</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div id="setup">
-    <h2>Guess the Liar - Setup</h2>
+  <div id="categorySelection">
+    <h2>Select a Category</h2>
+    <button onclick="selectCategory('anime')">Anime</button>
+    <button onclick="selectCategory('movies')">Movies</button>
+    <button onclick="selectCategory('series')">Series</button>
+    <button onclick="selectCategory('general')">General</button>
+    <button onclick="toggleDarkMode()">Toggle Dark Mode</button>
+  </div>
+
+  <div id="setup" class="hidden">
+    <h2>Enter Player Names</h2>
     <div id="nameInputs">
       <input type="text" placeholder="Player 1" />
     </div>
-    <button onclick="addPlayerInput()">Add Player</button>
+    <button onclick="addPlayerInput()">+ Add Player</button>
     <button onclick="startGame()">Start Game</button>
   </div>
 
   <div id="game" class="hidden">
     <h2 id="playerTurn"></h2>
-    <div id="promptDisplay" class="hidden"></div>
-    <p id="timer" class="hidden"></p>
-    <button id="revealBtn" onclick="revealPrompt()">Reveal Prompt</button>
-    <button id="hideNowBtn" class="hidden" onclick="hidePrompt()">Hide and Pass</button>
-    <button id="hideBtn" class="hidden" onclick="hidePrompt()">Hide (after 10s)</button>
+    <div id="promptDisplay" class="prompt"></div>
+    <button onclick="revealPrompt()">Reveal Prompt</button>
+    <div id="timer" class="hidden"></div>
+    <button id="hideNowBtn" class="hidden" onclick="hidePrompt()">Hide & Pass</button>
+    <button id="hideBtn" class="hidden" onclick="hidePrompt()">Hide</button>
   </div>
 
   <div id="guessSection" class="hidden">
@@ -31,12 +40,17 @@
     <p id="result"></p>
     <button onclick="nextRound()">Next Round</button>
     <button onclick="resetGame()">Reset Game</button>
-    <button onclick="quitRound()">Quit This Round</button>
+    <button onclick="quitRound()">Quit Round</button>
   </div>
 
   <div id="scoreboard" class="hidden">
     <h2>Scoreboard</h2>
     <ul id="scores"></ul>
+  </div>
+
+  <div id="leaderboard" class="hidden">
+    <h2>All-Time Leaderboard</h2>
+    <ul id="leaderboardList"></ul>
   </div>
 
   <script src="script.js"></script>
