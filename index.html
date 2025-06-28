@@ -1,63 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Guess the Liar - Categories</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <title>Who's the Imposter?</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div id="categorySelection">
-    <h2>Select a Category</h2>
-    <button onclick="selectCategory('anime')">Anime</button>
-    <button onclick="selectCategory('movies')">Movies</button>
-    <button onclick="selectCategory('series')">Series</button>
-    <button onclick="selectCategory('general')">General</button>
-    <button onclick="selectCategory('superheroes')">superheroes</button>
-    <button onclick="selectCategory('popular_games')">popular games</button>
-    <button onclick="selectCategory('video_games')"> video games</button>
-    <button onclick="selectCategory(' everyday_life')"> everyday life</button>
-    <button onclick="selectCategory('dream_scenariose')">dream scenarios</button>
-    <button onclick="selectCategory(' digital_world')"> digital world</button>
-    
-    <button onclick="toggleDarkMode()">Toggle Dark Mode</button>
-  </div>
-
-  <div id="setup" class="hidden">
-    <h2>Enter Player Names</h2>
-    <div id="nameInputs">
-      <input type="text" placeholder="Player 1" />
-    </div>
-    <button onclick="addPlayerInput()">+ Add Player</button>
+  <h1>Who's the Imposter?</h1>
+  
+  <!-- Player Input Section -->
+  <div id="player-setup">
+    <input type="text" id="player-name" placeholder="Enter Player Name" />
+    <button onclick="addPlayer()">Add Player</button>
+    <ul id="player-list"></ul>
+    <select id="category-select">
+      <option value="general">General</option>
+      <option value="onepiece">One Piece</option>
+      <option value="anime">Anime</option>
+      <option value="marvel">Marvel</option>
+      <option value="dc">DC</option>
+      <option value="malayalam_movies">Malayalam Movies</option>
+    </select>
     <button onclick="startGame()">Start Game</button>
   </div>
 
-  <div id="game" class="hidden">
-    <h2 id="playerTurn"></h2>
-    <div id="promptDisplay" class="prompt"></div>
-    <button onclick="revealPrompt()">Reveal Prompt</button>
-    <div id="timer" class="hidden"></div>
-    <button id="hideNowBtn" class="hidden" onclick="hidePrompt()">Hide & Pass</button>
-    <button id="hideBtn" class="hidden" onclick="hidePrompt()">Hide</button>
-  </div>
-
-  <div id="guessSection" class="hidden">
-    <h2>Who was the liar?</h2>
-    <div id="guessButtons"></div>
-    <p id="result"></p>
-    <button onclick="nextRound()">Next Round</button>
-    <button onclick="resetGame()">Reset Game</button>
-    <button onclick="quitRound()">Quit Round</button>
-  </div>
-
-  <div id="scoreboard" class="hidden">
-    <h2>Scoreboard</h2>
-    <ul id="scores"></ul>
-  </div>
-
-  <div id="leaderboard" class="hidden">
-    <h2>All-Time Leaderboard</h2>
-    <ul id="leaderboardList"></ul>
+  <!-- Game Content -->
+  <div id="game-area" style="display:none;">
+    <div id="round-info"></div>
+    <div id="question-area"></div>
+    <div id="answer-area"></div>
+    <div id="voting-area"></div>
+    <div id="results-area"></div>
   </div>
 
   <script src="script.js"></script>
