@@ -24,7 +24,7 @@ function startGame() {
     return;
   }
   category = document.getElementById("category-select").value;
-  fetch(`data/${category}.json`)
+     fetch (`${category}.json`)
     .then(res => res.json())
     .then(data => {
       questions = data;
